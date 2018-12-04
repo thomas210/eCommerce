@@ -47,7 +47,7 @@ public class CarrinhoResource {
 		
 	}
 	
-	@PostMapping("/{codigoClinete}/{codigoProduto}")
+	@PostMapping("/{codigoCliente}/{codigoProduto}")
 	public ResponseEntity<Carrinho> store (@RequestBody Carrinho request, @PathVariable Long codigoCliente, @PathVariable Long codigoProduto) {
 		
 		Cliente cliente = repCliente.findById(codigoCliente).get();
