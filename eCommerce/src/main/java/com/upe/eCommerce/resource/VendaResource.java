@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.upe.eCommerce.model.Venda;
+import com.upe.eCommerce.repository.CarrinhoRepository;
 import com.upe.eCommerce.repository.VendaRepository;
 
 @RestController
@@ -26,13 +27,16 @@ public class VendaResource {
 	@Autowired
 	private VendaRepository repVenda;
 	
+	@Autowired
+	private CarrinhoRepository repCarrinho;
+	
 	@GetMapping
 	public List<Venda> index() {
 		return repVenda.findAll();
 	}
 	
-	@PostMapping
-	public ResponseEntity<Venda> store(@RequestBody Venda request) {
+	@PostMapping("/{codigoClinete}")
+	public ResponseEntity<Venda> store(@RequestBody Venda request, @PathVariable Long codigoCliente) {
 		Venda venda = repVenda.save(request);
 		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{codigo}").buildAndExpand(venda.getCodigo()).toUri();
@@ -91,5 +95,6 @@ public class VendaResource {
 		
 		return res;
 	}
+	
 
 }
