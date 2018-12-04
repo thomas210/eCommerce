@@ -24,10 +24,6 @@ public class Venda {
 	private Long codigo;
 	
 	@ManyToOne
-	@JoinColumn(name = "loja_id")
-	private Loja loja;
-	
-	@ManyToOne
 	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
 	
@@ -50,13 +46,6 @@ public class Venda {
 		this.codigo = codigo;
 	}
 
-	public Loja getLoja() {
-		return loja;
-	}
-
-	public void setLoja(Loja loja) {
-		this.loja = loja;
-	}
 
 	public Cliente getCliente() {
 		return cliente;
