@@ -41,7 +41,7 @@ public class VendaResource {
 		return repVenda.findAll();
 	}
 	
-	@PostMapping("/{codigoClinete}")
+	@PostMapping("/{codigoCliente}")
 	public ResponseEntity<Venda> store(@RequestBody Venda request, @PathVariable Long codigoCliente) {
 		Venda venda = repVenda.save(request);
 		
