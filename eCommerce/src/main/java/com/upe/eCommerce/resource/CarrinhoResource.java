@@ -58,6 +58,8 @@ public class CarrinhoResource {
 		
 		request.setProduto(produto);
 		
+		request.aplicarDesconto();
+		
 		Carrinho carrinho = repCarrinho.save(request);
 		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{codigo}").buildAndExpand(carrinho.getCodigo()).toUri();

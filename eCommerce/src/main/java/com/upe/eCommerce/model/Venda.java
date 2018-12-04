@@ -1,6 +1,8 @@
 package com.upe.eCommerce.model;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +15,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "vendas")
 public class Venda {
+	
+	private static double ACRESCIMO_PARCELA = 0.1;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +31,10 @@ public class Venda {
 	private Cliente cliente;
 	
 	private Date dataVenda;
+	
+	private double precoTotal;
+	
+	private int parcelas;
 
 	public Long getCodigo() {
 		return codigo;
@@ -58,6 +66,32 @@ public class Venda {
 
 	public void setDataVenda(Date dataVenda) {
 		this.dataVenda = dataVenda;
+	}
+	
+	public List<ProdutoVenda> addProdutoVenda(List<Carrinho> produtosCarrinho) {
+		
+		List<ProdutoVenda> res = new ArrayList<ProdutoVenda>();
+		
+		for (int i = 0; i < produtosCarrinho.size(); i++) {
+			Carrinho pCarrinho = produtosCarrinho.get(i);
+			ProdutoVenda vProduto = new ProdutoVenda();
+			vProduto.setProduto(pCarrinho.getProduto());
+			vProduto.setQuantidade(pCarrinho.getQuantidade());
+			vProduto.setVenda(this);
+			res.add(vProduto);
+			this.precoTotal += vProduto.getProduto().getPreco();
+		}
+		
+		return res;
+	}
+	
+	public void finalizarCompra() {
+		
+		if (this.parcelas > 1) {
+			double porcJuros = Venda.ACRESCIMO_PARCELA * this.parcelas;
+			this.precoTotal += this.precoTotal * porcJuros;
+		}
+		
 	}
 	
 	
