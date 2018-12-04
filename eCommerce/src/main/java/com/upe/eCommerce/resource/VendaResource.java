@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.upe.eCommerce.model.Carrinho;
+import com.upe.eCommerce.model.ProdutoVenda;
 import com.upe.eCommerce.model.Venda;
 import com.upe.eCommerce.repository.CarrinhoRepository;
+import com.upe.eCommerce.repository.ProdutoVendaRepository;
 import com.upe.eCommerce.repository.VendaRepository;
 
 @RestController
@@ -30,6 +33,9 @@ public class VendaResource {
 	@Autowired
 	private CarrinhoRepository repCarrinho;
 	
+	@Autowired
+	private ProdutoVendaRepository repProdutoVenda;
+	
 	@GetMapping
 	public List<Venda> index() {
 		return repVenda.findAll();
@@ -38,6 +44,16 @@ public class VendaResource {
 	@PostMapping("/{codigoClinete}")
 	public ResponseEntity<Venda> store(@RequestBody Venda request, @PathVariable Long codigoCliente) {
 		Venda venda = repVenda.save(request);
+		
+		List<Carrinho> produtosCarrinho = repCarrinho.findAllByClienteId(codigoCliente);
+		
+		repCarrinho.deleteAll(produtosCarrinho);
+		
+		List<ProdutoVenda> produtosVenda = venda.addProdutoVenda(produtosCarrinho);
+		
+		for (int i = 0; i < produtosVenda.size(); i++) {
+			repProdutoVenda.save(produtosVenda.get(i));
+		}
 		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{codigo}").buildAndExpand(venda.getCodigo()).toUri();
 		

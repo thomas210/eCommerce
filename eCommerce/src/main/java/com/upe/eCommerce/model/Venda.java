@@ -1,6 +1,8 @@
 package com.upe.eCommerce.model;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -58,6 +60,22 @@ public class Venda {
 
 	public void setDataVenda(Date dataVenda) {
 		this.dataVenda = dataVenda;
+	}
+	
+	public List<ProdutoVenda> addProdutoVenda(List<Carrinho> produtosCarrinho) {
+		
+		List<ProdutoVenda> res = new ArrayList<ProdutoVenda>();
+		
+		for (int i = 0; i < produtosCarrinho.size(); i++) {
+			Carrinho pCarrinho = produtosCarrinho.get(i);
+			ProdutoVenda vProduto = new ProdutoVenda();
+			vProduto.setProduto(pCarrinho.getProduto());
+			vProduto.setQuantidade(pCarrinho.getQuantidade());
+			vProduto.setVenda(this);
+			res.add(vProduto);
+		}
+		
+		return res;
 	}
 	
 	
