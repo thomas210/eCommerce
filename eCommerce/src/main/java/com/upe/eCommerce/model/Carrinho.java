@@ -12,6 +12,9 @@ import javax.persistence.Table;
 @Table(name = "carrinho")
 public class Carrinho {
 	
+	private static double DESCONTO_ATACADO = 0.05;
+	private static int QUANTIDADE_ATACADO = 5;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long codigo;
@@ -58,6 +61,12 @@ public class Carrinho {
 		this.cliente = cliente;
 	}
 	
+	public void aplicarDesconto() {
+		if (this.quantidade > Carrinho.QUANTIDADE_ATACADO) {
+			double desconto = this.produto.getPreco() * Carrinho.DESCONTO_ATACADO; 
+			this.produto.setPreco(this.produto.getPreco() - desconto);
+		}
+	}
 	
 
 }

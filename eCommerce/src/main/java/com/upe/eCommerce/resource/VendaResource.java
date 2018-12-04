@@ -55,6 +55,10 @@ public class VendaResource {
 			repProdutoVenda.save(produtosVenda.get(i));
 		}
 		
+		venda.finalizarCompra();
+		
+		venda = repVenda.save(venda);
+		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{codigo}").buildAndExpand(venda.getCodigo()).toUri();
 		
 		return ResponseEntity.created(uri).body(venda);

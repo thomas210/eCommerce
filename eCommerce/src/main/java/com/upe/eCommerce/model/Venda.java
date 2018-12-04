@@ -16,6 +16,8 @@ import javax.persistence.Table;
 @Table(name = "vendas")
 public class Venda {
 	
+	private static double ACRESCIMO_PARCELA = 0.1;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
@@ -29,6 +31,10 @@ public class Venda {
 	private Cliente cliente;
 	
 	private Date dataVenda;
+	
+	private double precoTotal;
+	
+	private int parcelas;
 
 	public Long getCodigo() {
 		return codigo;
@@ -73,9 +79,19 @@ public class Venda {
 			vProduto.setQuantidade(pCarrinho.getQuantidade());
 			vProduto.setVenda(this);
 			res.add(vProduto);
+			this.precoTotal += vProduto.getProduto().getPreco();
 		}
 		
 		return res;
+	}
+	
+	public void finalizarCompra() {
+		
+		if (this.parcelas > 1) {
+			double porcJuros = Venda.ACRESCIMO_PARCELA * this.parcelas;
+			this.precoTotal += this.precoTotal * porcJuros;
+		}
+		
 	}
 	
 	
