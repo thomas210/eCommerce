@@ -1,6 +1,5 @@
 package com.upe.eCommerce.model;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,11 +26,9 @@ public class Venda {
 	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
 	
-	private Date dataVenda;
+	private double precoTotal;
 	
-	private double precoTotal = 10;
-	
-	private int parcelas = 5;
+	private int parcelas;
 	
 	//@OneToMany(mappedBy = "venda")
 	@OneToMany
@@ -54,15 +51,6 @@ public class Venda {
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
-
-	public Date getDataVenda() {
-		return dataVenda;
-	}
-
-	public void setDataVenda(Date dataVenda) {
-		this.dataVenda = dataVenda;
-	}
-	
 	
 	public double getPrecoTotal() {
 		return precoTotal;
@@ -88,6 +76,8 @@ public class Venda {
 		this.produtosVenda = produtosVenda;
 	}
 
+	
+
 	public List<ProdutoVenda> addProdutoVenda(List<Carrinho> produtosCarrinho) {
 		
 		List<ProdutoVenda> res = new ArrayList<ProdutoVenda>();
@@ -97,10 +87,11 @@ public class Venda {
 			ProdutoVenda vProduto = new ProdutoVenda();
 			vProduto.setProduto(pCarrinho.getProduto());
 			vProduto.setQuantidade(pCarrinho.getQuantidade());
+			vProduto.setPrecoProduto(pCarrinho.getPrecoProduto());
 			//vProduto.setVenda(this);
 			vProduto.setVenda_id(this.getCodigo());
 			res.add(vProduto);
-			this.precoTotal += vProduto.getProduto().getPreco();
+			this.precoTotal += vProduto.getPrecoProduto() * vProduto.getQuantidade();
 		}
 		
 		return res;

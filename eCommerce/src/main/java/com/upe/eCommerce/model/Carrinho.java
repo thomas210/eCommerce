@@ -28,6 +28,8 @@ public class Carrinho {
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
+	
+	private double precoProduto;
 
 	public long getCodigo() {
 		return codigo;
@@ -61,10 +63,19 @@ public class Carrinho {
 		this.cliente = cliente;
 	}
 	
+	public double getPrecoProduto() {
+		return precoProduto;
+	}
+
+	public void setPrecoProduto(double precoProduto) {
+		this.precoProduto = precoProduto;
+	}
+
 	public void aplicarDesconto() {
 		if (this.quantidade > Carrinho.QUANTIDADE_ATACADO) {
-			double desconto = this.produto.getPreco() * Carrinho.DESCONTO_ATACADO; 
-			this.produto.setPreco(this.produto.getPreco() - desconto);
+			double desconto = this.produto.getPreco() * Carrinho.DESCONTO_ATACADO;
+			this.setPrecoProduto(this.produto.getPreco() - desconto);
+		
 		}
 	}
 	

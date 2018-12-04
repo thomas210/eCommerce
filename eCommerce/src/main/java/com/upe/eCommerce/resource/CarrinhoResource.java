@@ -64,7 +64,9 @@ public class CarrinhoResource {
 			
 			request.setCliente(cliente);
 			
-			request.setProduto(produto);
+			Produto p = produto;
+			
+			request.setProduto(p);
 			
 			request.aplicarDesconto();
 			

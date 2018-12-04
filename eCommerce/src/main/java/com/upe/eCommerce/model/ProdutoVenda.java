@@ -23,6 +23,8 @@ public class ProdutoVenda {
 	private int quantidade;
 	
 	private Long venda_id;
+	
+	private double precoProduto;
 
 	public long getCodigo() {
 		return codigo;
@@ -54,6 +56,14 @@ public class ProdutoVenda {
 
 	public void setVenda_id(Long venda_id) {
 		this.venda_id = venda_id;
+	}
+	
+	public double getPrecoProduto() {
+		return precoProduto;
+	}
+
+	public void setPrecoProduto(double precoProduto) {
+		this.precoProduto = precoProduto;
 	}
 	
 	
