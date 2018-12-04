@@ -1,7 +1,6 @@
 package com.upe.eCommerce.model;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,9 +22,6 @@ public class ProdutoVenda {
 	
 	private int quantidade;
 	
-	/*@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "venda_id")
-	private Venda venda;*/
 	private Long venda_id;
 
 	public long getCodigo() {
@@ -59,14 +55,6 @@ public class ProdutoVenda {
 	public void setVenda_id(Long venda_id) {
 		this.venda_id = venda_id;
 	}
-
-	/*public Venda getVenda() {
-		return venda;
-	}
-
-	public void setVenda(Venda venda) {
-		this.venda = venda;
-	}*/
 	
 	
 	

@@ -72,6 +72,18 @@ public class Produto {
 		this.preco = preco;
 	}
 	
+	public boolean isEstoqueDisponivel (int quantidade) {
+		boolean res;
+		
+		if (this.estoque_un > quantidade) {
+			res = true;
+		}else {
+			res = false;
+		}
+		
+		return res;
+	}
+	
 	
 	
 

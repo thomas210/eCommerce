@@ -54,17 +54,33 @@ public class CarrinhoResource {
 		
 		Produto produto = repProduto.findById(codigoProduto).get();
 		
-		request.setCliente(cliente);
+		ResponseEntity<Carrinho> res;
 		
-		request.setProduto(produto);
+		if (produto.isEstoqueDisponivel(request.getQuantidade())) {
+			
+			produto.setEstoque_un(produto.getEstoque_un() - request.getQuantidade());
+			
+			repProduto.save(produto);
+			
+			request.setCliente(cliente);
+			
+			request.setProduto(produto);
+			
+			request.aplicarDesconto();
+			
+			Carrinho carrinho = repCarrinho.save(request);
+			
+			URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{codigo}").buildAndExpand(carrinho.getCodigo()).toUri();
+			
+			res = ResponseEntity.created(uri).body(carrinho);
+			
+		} else {
+			
+			res = ResponseEntity.badRequest().build();
+			
+		}
 		
-		request.aplicarDesconto();
-		
-		Carrinho carrinho = repCarrinho.save(request);
-		
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{codigo}").buildAndExpand(carrinho.getCodigo()).toUri();
-		
-		return ResponseEntity.created(uri).body(carrinho);
+		return res;
 	}
 	
 	@GetMapping("/{codigo}")
