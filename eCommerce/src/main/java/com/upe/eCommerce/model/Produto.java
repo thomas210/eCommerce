@@ -27,10 +27,8 @@ public class Produto {
 	private int estoque_un;
 	@NotNull
 	private double preco;
-	@NotNull
-	private long loja_id;
 	
-	@NotNull
+	
 	@ManyToOne
 	@JoinColumn(name = "loja_id")
 	private Loja loja;
