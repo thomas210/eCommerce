@@ -17,9 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.upe.eCommerce.model.Carrinho;
+import com.upe.eCommerce.model.Cliente;
+import com.upe.eCommerce.model.Loja;
 import com.upe.eCommerce.model.ProdutoVenda;
 import com.upe.eCommerce.model.Venda;
 import com.upe.eCommerce.repository.CarrinhoRepository;
+import com.upe.eCommerce.repository.ClienteRepository;
+import com.upe.eCommerce.repository.LojaRepository;
 import com.upe.eCommerce.repository.ProdutoVendaRepository;
 import com.upe.eCommerce.repository.VendaRepository;
 
@@ -36,6 +40,9 @@ public class VendaResource {
 	@Autowired
 	private ProdutoVendaRepository repProdutoVenda;
 	
+	@Autowired
+	private ClienteRepository repCliente;
+	
 	@GetMapping
 	public List<Venda> index() {
 		return repVenda.findAll();
@@ -44,6 +51,10 @@ public class VendaResource {
 	@PostMapping("/{codigoCliente}")
 	public ResponseEntity<Venda> store(@RequestBody Venda request, @PathVariable Long codigoCliente) {
 		Venda venda = repVenda.save(request);
+		
+		Optional<Cliente> cliente = repCliente.findById(codigoCliente);
+		
+		venda.setCliente(cliente.get());
 		
 		List<Carrinho> produtosCarrinho = repCarrinho.findAllByClienteId(codigoCliente);
 		
