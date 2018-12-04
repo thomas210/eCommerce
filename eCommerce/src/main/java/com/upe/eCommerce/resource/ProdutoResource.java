@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,7 +39,7 @@ public class ProdutoResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Produto> store(@RequestBody Produto produto, HttpServletResponse response) {
+	public ResponseEntity<Produto> store(@Valid @RequestBody Produto produto, HttpServletResponse response) {
 		
 		Produto produtoSalvo = produtoRepository.save(produto);
 		
@@ -58,7 +59,7 @@ public class ProdutoResource {
 	}
 	
 	@PutMapping("edit/{codigo}")
-	public ResponseEntity<Produto> update (@PathVariable Long codigo, @RequestBody Produto request) {
+	public ResponseEntity<Produto> update (@PathVariable Long codigo, @Valid @RequestBody Produto request) {
 		
 		Optional<Produto> produto = produtoRepository.findById(codigo);
 		

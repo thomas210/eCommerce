@@ -5,6 +5,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,7 +37,7 @@ public class ClienteResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Cliente> store (@RequestBody Cliente request) {
+	public ResponseEntity<Cliente> store (@Valid @RequestBody Cliente request) {
 		
 		Cliente cliente = repCliente.save(request);
 		
@@ -60,7 +62,7 @@ public class ClienteResource {
 	}
 	
 	@PutMapping("edit/{codigo}")
-	public ResponseEntity<Cliente> update (@PathVariable Long codigo, @RequestBody Cliente request) {
+	public ResponseEntity<Cliente> update (@PathVariable Long codigo, @Valid @RequestBody Cliente request) {
 		
 		Optional<Cliente> cliente = repCliente.findById(codigo);
 		

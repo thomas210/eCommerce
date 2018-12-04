@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="clientes")
@@ -14,14 +16,15 @@ public class Cliente {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
-	
+	@NotNull
+	@Size(max = 14)
 	private String cpf;
-	
+	@NotNull
 	private String nome;
 	
 	@Embedded
 	private Endereco endereco;
-	
+	@NotNull
 	private String cartaoCredito;
 
 	public Long getCodigo() {
