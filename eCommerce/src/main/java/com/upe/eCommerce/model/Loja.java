@@ -16,9 +16,9 @@ public class Loja {
 	
 	private String nome;
 	
-	private String tipo;
-	
-	private int nota;
+	private String cnpj;
+		
+	private int nota = 5;
 
 	public Long getCodigo() {
 		return codigo;
@@ -36,14 +36,6 @@ public class Loja {
 		this.nome = nome;
 	}
 
-	public String getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
-
 	public int getNota() {
 		return nota;
 	}
@@ -51,6 +43,16 @@ public class Loja {
 	public void setNota(int nota) {
 		this.nota = nota;
 	}
+
+	public String getCnpj() {
+		return cnpj;
+	}
+
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
+	}
+	
+	
 	
 	
 	
