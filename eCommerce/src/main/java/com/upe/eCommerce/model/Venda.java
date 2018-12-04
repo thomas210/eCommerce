@@ -3,13 +3,17 @@ package com.upe.eCommerce.model;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -32,9 +36,14 @@ public class Venda {
 	
 	private Date dataVenda;
 	
-	private double precoTotal;
+	private double precoTotal = 10;
 	
-	private int parcelas;
+	private int parcelas = 5;
+	
+	//@OneToMany(mappedBy = "venda")
+	@OneToMany
+	@JoinColumn(name = "venda_id")
+	private List<ProdutoVenda> produtosVenda;
 
 	public Long getCodigo() {
 		return codigo;
@@ -68,6 +77,31 @@ public class Venda {
 		this.dataVenda = dataVenda;
 	}
 	
+	
+	public double getPrecoTotal() {
+		return precoTotal;
+	}
+
+	public void setPrecoTotal(double precoTotal) {
+		this.precoTotal = precoTotal;
+	}
+
+	public int getParcelas() {
+		return parcelas;
+	}
+
+	public void setParcelas(int parcelas) {
+		this.parcelas = parcelas;
+	}
+
+	public List<ProdutoVenda> getProdutosVenda() {
+		return produtosVenda;
+	}
+
+	public void setProdutosVenda(List<ProdutoVenda> produtosVenda) {
+		this.produtosVenda = produtosVenda;
+	}
+
 	public List<ProdutoVenda> addProdutoVenda(List<Carrinho> produtosCarrinho) {
 		
 		List<ProdutoVenda> res = new ArrayList<ProdutoVenda>();
@@ -77,7 +111,8 @@ public class Venda {
 			ProdutoVenda vProduto = new ProdutoVenda();
 			vProduto.setProduto(pCarrinho.getProduto());
 			vProduto.setQuantidade(pCarrinho.getQuantidade());
-			vProduto.setVenda(this);
+			//vProduto.setVenda(this);
+			vProduto.setVenda_id(this.getCodigo());
 			res.add(vProduto);
 			this.precoTotal += vProduto.getProduto().getPreco();
 		}
